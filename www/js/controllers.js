@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet) {
+.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup) {
   
   $scope.addNewComic = addNewComic;
   $scope.closeModal = closeModal;
@@ -60,7 +60,15 @@ angular.module('starter.controllers', [])
   }
 
   function deleteComic( indexComic ){
-    $scope.comics.splice( indexComic, 1 );
+    $ionicPopup.confirm({
+      title: "Is sure?",
+      okText: "Yes!!!!",
+      template: "This is important",
+      cancelText: "Sorry!!"
+    })
+    .then(function(rta){
+      if(rta) $scope.comics.splice( indexComic, 1 );
+    });
   }
 
   function showOptions( indexComic ){
