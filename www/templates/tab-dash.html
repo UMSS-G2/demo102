@@ -6,7 +6,7 @@
 
   <ion-content>
     <ion-list>
-      <ion-item class="item-thumbnail-right" ng-repeat="comic in comics">
+      <ion-item on-hold="showOptions( $index )" class="item-thumbnail-right" ng-repeat="comic in comics">
         <img ng-src="img/{{ comic.cover }}" alt="">
         <h2>{{ comic.title }}</h2>
         <p>{{ comic.author }}</p>

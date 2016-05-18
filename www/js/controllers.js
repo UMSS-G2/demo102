@@ -1,11 +1,14 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal) {
+.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet) {
   
   $scope.addNewComic = addNewComic;
   $scope.closeModal = closeModal;
   $scope.saveComic = saveComic;
   $scope.deleteComic = deleteComic;
+  $scope.showOptions = showOptions;
+  $scope.editComic = editComic;
+  $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
 
@@ -38,6 +41,8 @@ angular.module('starter.controllers', [])
   ];
 
   function addNewComic(){
+    $scope.isNew = true;
+    $scope.comic = {};
     $scope.modal.show();
   }
 
@@ -46,14 +51,43 @@ angular.module('starter.controllers', [])
   }
 
   function saveComic(){
-    $scope.comic.cover = "calvin.png";
-    $scope.comics.push( $scope.comic );
-    $scope.comic = {};
+    if($scope.isNew){
+      $scope.comic.cover = "calvin.png";
+      $scope.comics.push( $scope.comic );
+      $scope.comic = {};
+    }
     $scope.modal.hide();
   }
 
   function deleteComic( indexComic ){
     $scope.comics.splice( indexComic, 1 );
+  }
+
+  function showOptions( indexComic ){
+    $ionicActionSheet.show({
+      buttons: [
+        { text: "<i class='icon ion-share'></i>Share" },
+        { text: "<i class='icon ion-edit'></i>Edit" },
+      ],
+      destructiveText: "<i class='icon ion-trash-b'></i>Delete",
+      destructiveButtonClicked: function(){
+        $scope.deleteComic( indexComic );
+        return true;
+      },
+      cancelText: "Close",
+      buttonClicked: function( indexButton ){
+        if(indexButton == 1){
+          $scope.editComic( indexComic );
+        }
+        return true;
+      }
+    });
+  }
+
+  function editComic( indexComic ){
+    $scope.isNew = false;
+    $scope.comic = $scope.comics[indexComic];
+    $scope.modal.show();  
   }
 
 })
