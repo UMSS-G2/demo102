@@ -1,7 +1,19 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope, $ionicModal) {
   
+  $scope.addNewComic = addNewComic;
+  $scope.closeModal = closeModal;
+  $scope.saveComic = saveComic;
+  $scope.comic = {};
+  $scope.modal = null;
+
+  $ionicModal.fromTemplateUrl("templates/comic-modal.html", {
+    scope: $scope
+  })
+  .then(function(modal){
+    $scope.modal = modal;
+  });
 
   $scope.comics = [
     {
@@ -23,6 +35,21 @@ angular.module('starter.controllers', [])
       year: 1907
     }
   ];
+
+  function addNewComic(){
+    $scope.modal.show();
+  }
+
+  function closeModal(){
+    $scope.modal.hide();
+  }
+
+  function saveComic(){
+    $scope.comic.cover = "calvin.png";
+    $scope.comics.push( $scope.comic );
+    $scope.comic = {};
+    $scope.modal.hide();
+  }
 
 })
 
