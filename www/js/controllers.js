@@ -5,6 +5,7 @@ angular.module('starter.controllers', [])
   $scope.addNewComic = addNewComic;
   $scope.closeModal = closeModal;
   $scope.saveComic = saveComic;
+  $scope.deleteComic = deleteComic;
   $scope.comic = {};
   $scope.modal = null;
 
@@ -49,6 +50,10 @@ angular.module('starter.controllers', [])
     $scope.comics.push( $scope.comic );
     $scope.comic = {};
     $scope.modal.hide();
+  }
+
+  function deleteComic( indexComic ){
+    $scope.comics.splice( indexComic, 1 );
   }
 
 })
