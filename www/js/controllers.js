@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup) {
+.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup, $ionicPopover) {
   
   $scope.addNewComic = addNewComic;
   $scope.closeModal = closeModal;
@@ -8,15 +8,24 @@ angular.module('starter.controllers', [])
   $scope.deleteComic = deleteComic;
   $scope.showOptions = showOptions;
   $scope.editComic = editComic;
+  $scope.showPopover = showPopover;
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
+  $scope.popover = null;
 
   $ionicModal.fromTemplateUrl("templates/comic-modal.html", {
     scope: $scope
   })
   .then(function(modal){
     $scope.modal = modal;
+  });
+
+  $ionicPopover.fromTemplateUrl("templates/options-popover.html", {
+    scope: $scope
+  })
+  .then(function(popover){
+    $scope.popover = popover;
   });
 
   $scope.comics = [
@@ -43,6 +52,7 @@ angular.module('starter.controllers', [])
   function addNewComic(){
     $scope.isNew = true;
     $scope.comic = {};
+    $scope.popover.hide();
     $scope.modal.show();
   }
 
@@ -96,6 +106,10 @@ angular.module('starter.controllers', [])
     $scope.isNew = false;
     $scope.comic = $scope.comics[indexComic];
     $scope.modal.show();  
+  }
+
+  function showPopover($event){
+    $scope.popover.show($event);
   }
 
 })
