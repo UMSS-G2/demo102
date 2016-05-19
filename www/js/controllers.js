@@ -13,6 +13,18 @@ angular.module('starter.controllers', [])
   $scope.comic = {};
   $scope.modal = null;
   $scope.popover = null;
+  $scope.comics = [];
+
+  /*
+  ComicService.getAllComics()
+  .then(function(comics){
+    console.log( comics );
+    if(comics != undefined) $scope.comics = comics; 
+  })
+  .catch(function( error ){
+    console.log( error );
+  });
+  */
 
   $ionicModal.fromTemplateUrl("templates/comic-modal.html", {
     scope: $scope
@@ -28,27 +40,6 @@ angular.module('starter.controllers', [])
     $scope.popover = popover;
   });
 
-  $scope.comics = [
-    {
-      title: "Mafalda",
-      author: "Quino",
-      cover: "mafalda.jpg",
-      year: 1990
-    },
-    {
-      title: "Calvin and Hobbes",
-      author: "dsfsdf sdfsdf",
-      cover: "calvin.png",
-      year:1990
-    },
-    {
-      title: "Pentaus",
-      author: "dsfdsf sdfsdaf",
-      cover: "charlie.png",
-      year: 1907
-    }
-  ];
-
   function addNewComic(){
     $scope.isNew = true;
     $scope.comic = {};
@@ -63,6 +54,7 @@ angular.module('starter.controllers', [])
   function saveComic(){
     if($scope.isNew){
       $scope.comic.cover = "calvin.png";
+      ComicService.createComic($scope.comic.title, $scope.comic.author, $scope.comic.cover, $scope.comic.year);
       $scope.comics.push( $scope.comic );
       $scope.comic = {};
     }

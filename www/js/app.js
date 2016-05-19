@@ -6,6 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 var DB = null;
+
 angular.module('starter', [
   'ionic',
   'ngCordova',
@@ -26,21 +27,26 @@ angular.module('starter', [
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    DB = $cordovaSQLite.openDB({ name: "demo102.db", location: 'default', iosDatabaseLocation: 'Library' });
-    createTable();
-  });
 
-  
-  function createTable(){
-    var sql = "CREATE TABLE IF NOT EXISTS comics (id integer PRIMARY KEY AUTOINCREMENT, title text, author text, cover text, year integer)";
-    $cordovaSQLite.execute(DB, sql)
-    .then(function( res ){
-      console.log( res );
+    //Create or Read DB
+    DB = $cordovaSQLite.openDB({
+      name: 'app.db',
+      location: 'default',
+      iosDatabaseLocation: 'Library'
+    });
+    //Create Tables
+    var query = "CREATE TABLE IF NOT EXISTS comics (id integer PRIMARY KEY AUTOINCREMENT, title text, author text, cover text, year integer)";
+    $cordovaSQLite.execute(DB, query)
+    .then(function( response ){
+      console.log( response );
     })
     .catch(function( error ){
       console.log( error );
     });
-  }
+  });
+
+  
+  
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -100,6 +106,6 @@ angular.module('starter', [
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/account');
 
 });
