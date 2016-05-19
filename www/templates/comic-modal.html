@@ -30,6 +30,14 @@
 			</div>
 
 			<div class="padding">
+				<button ng-click="choosePicture()" type="button" class="button icon-left ion-images button-dark button-block">Choose a Picture</button>
+			</div>
+
+			<div class="padding" ng-show="comic.cover">
+				<img class="full-image" ng-src="{{ comic.cover }}" alt="cover">
+			</div>
+
+			<div class="padding">
 				<button type="submit" class="button button-assertive button-block">Save</button>
 			</div>
 	

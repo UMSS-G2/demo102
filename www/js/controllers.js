@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup, $ionicPopover, ComicService) {
+.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup, $ionicPopover, ComicService, $cordovaCamera) {
   
   $scope.addNewComic = addNewComic;
   $scope.closeModal = closeModal;
@@ -9,6 +9,7 @@ angular.module('starter.controllers', [])
   $scope.showOptions = showOptions;
   $scope.editComic = editComic;
   $scope.showPopover = showPopover;
+  $scope.choosePicture = choosePicture;
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
@@ -102,6 +103,27 @@ angular.module('starter.controllers', [])
 
   function showPopover($event){
     $scope.popover.show($event);
+  }
+
+  function choosePicture(){
+
+    var options = {
+      quality: 100,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 500,
+      targetHeight: 500,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false,
+      correctOrientation:true
+    };
+
+    $cordovaCamera.getPicture( options )
+    .then(function( imageData ){
+      $scope.comic.cover = "data:image/jpeg;base64," + imageData;
+    });
   }
 
 })
