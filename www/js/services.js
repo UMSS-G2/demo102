@@ -47,4 +47,39 @@ angular.module('starter.services', [])
       return null;
     }
   };
-});
+})
+
+.factory('UserService', function( $http ){
+  return {
+    getAllUsers: function(){
+      return $http.get('https://randomuser.me/api/?results=50&gender=male');
+    },
+    createUser: function( data ){
+      //return $http.post('sdsdsd', data);
+    }
+  };
+})
+
+.factory('ComicService', function( $cordovaSQLite ){
+  
+  var DB = $cordovaSQLite.openDB({ name: "demo102.db" });
+
+  function createTable(){
+    var sql = "CREATE TABLE IF NOT EXISTS comics (id integer PRIMARY KEY AUTOINCREMENT, title text, author text, cover text, year integer)";
+    $cordovaSQLite.execute(DB, sql)
+    .then(function( res ){
+      console.log( res );
+    })
+    .catch(function( error ){
+      console.log( error );
+    });
+  }
+
+  createTable();
+
+  return {
+    createComic: function(){
+
+    }
+  }
+})
