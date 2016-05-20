@@ -7,14 +7,17 @@
 // 'starter.controllers' is found in controllers.js
 var DB = null;
 
-angular.module('starter', [
+var APP = angular.module('starter', [
   'ionic',
   'ngCordova',
   'starter.controllers',
   'starter.services'
-])
+]);
 
-.run(function($ionicPlatform, $cordovaSQLite) {
+var CTRLS = angular.module('starter.controllers', []);
+var SERVICES = angular.module('starter.services', []);
+
+APP.run(function($ionicPlatform, $cordovaSQLite) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -90,7 +93,7 @@ angular.module('starter', [
       views: {
         'tab-chats': {
           templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+          //controller: 'ChatDetailCtrl'
         }
       }
     })
@@ -100,7 +103,7 @@ angular.module('starter', [
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+        //controller: 'AccountCtrl'
       }
     }
   });

@@ -1,6 +1,4 @@
-angular.module('starter.controllers', [])
-
-.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup, $ionicPopover, ComicService, $cordovaCamera, $cordovaVibration, $cordovaDeviceMotion) {
+CTRLS.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup, $ionicPopover, ComicService, $cordovaCamera, $cordovaVibration, $cordovaDeviceMotion, $cordovaGeolocation) {
   
   $scope.addNewComic = addNewComic;
   $scope.closeModal = closeModal;
@@ -12,6 +10,7 @@ angular.module('starter.controllers', [])
   $scope.choosePicture = choosePicture;
   $scope.takePicture = takePicture;
   $scope.listerXYZ = listerXYZ;
+  $scope.getPosition = getPosition;
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
@@ -171,24 +170,22 @@ angular.module('starter.controllers', [])
     );
   }
 
-})
+  function getPosition(){
 
-.controller('ChatsCtrl', function($scope, UserService) {
-  
-  $scope.users = [];
+    var options = {
+      timeout: 30000,
+      enableHighAccuracy: false,
+      maximumAge: 10000
+    };
 
-  UserService.getAllUsers()
-  .then(function(response){
-    $scope.users = response.data.results;
-  });
-})
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
+    $cordovaGeolocation.getCurrentPosition( options )
+    .then(function( position ){
+      var lat  = position.coords.latitude;
+      var long = position.coords.longitude;
+      console.log( lat, long );
+      console.log( new Date(position.timestamp) );
+    });
+  }
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
 });
