@@ -27,5 +27,7 @@
     "cordova-plugin-device-motion",
     "cordova-plugin-geolocation"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "ios"
+  ]
 }
