@@ -23,11 +23,17 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-crosswalk-webview",
     "cordova-plugin-camera",
+    "cordova-plugin-compat",
     "cordova-plugin-vibration",
     "cordova-plugin-device-motion",
     "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
-    "ios"
+    "ios",
+    {
+      "platform": "ios",
+      "version": "",
+      "locator": "ios"
+    }
   ]
 }
