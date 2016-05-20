@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup, $ionicPopover, ComicService, $cordovaCamera) {
+.controller('DashCtrl', function($scope, $ionicModal, $ionicActionSheet, $ionicPopup, $ionicPopover, ComicService, $cordovaCamera, $cordovaVibration, $cordovaDeviceMotion) {
   
   $scope.addNewComic = addNewComic;
   $scope.closeModal = closeModal;
@@ -10,6 +10,8 @@ angular.module('starter.controllers', [])
   $scope.editComic = editComic;
   $scope.showPopover = showPopover;
   $scope.choosePicture = choosePicture;
+  $scope.takePicture = takePicture;
+  $scope.listerXYZ = listerXYZ;
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
@@ -54,7 +56,6 @@ angular.module('starter.controllers', [])
 
   function saveComic(){
     if($scope.isNew){
-      $scope.comic.cover = "calvin.png";
       ComicService.createComic($scope.comic.title, $scope.comic.author, $scope.comic.cover, $scope.comic.year);
       $scope.comics.push( $scope.comic );
       $scope.comic = {};
@@ -75,6 +76,9 @@ angular.module('starter.controllers', [])
   }
 
   function showOptions( indexComic ){
+
+    $cordovaVibration.vibrate(200);
+
     $ionicActionSheet.show({
       buttons: [
         { text: "<i class='icon ion-share'></i>Share" },
@@ -124,6 +128,47 @@ angular.module('starter.controllers', [])
     .then(function( imageData ){
       $scope.comic.cover = "data:image/jpeg;base64," + imageData;
     });
+  }
+
+  function takePicture(){
+
+    var options = {
+      quality: 100,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 500,
+      targetHeight: 500,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false,
+      correctOrientation:true
+    };
+
+    $cordovaCamera.getPicture( options )
+    .then(function( imageData ){
+      $scope.comic.cover = "data:image/jpeg;base64," + imageData;
+    });
+  }
+
+  function listerXYZ(){
+    var options = {
+      frequency: 1000
+    };
+    var watch = $cordovaDeviceMotion.watchAcceleration();
+    
+    watch.then(
+      null,
+      function(error){
+        console.log(error);
+      },
+      function( result ){
+        var X = result.x;
+        var Y = result.y;
+        var Z = result.z;
+        console.log(X, Y, Z);
+      }
+    );
   }
 
 })

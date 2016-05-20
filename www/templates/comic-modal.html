@@ -29,8 +29,13 @@
 
 			</div>
 
-			<div class="padding">
-				<button ng-click="choosePicture()" type="button" class="button icon-left ion-images button-dark button-block">Choose a Picture</button>
+			<div class="row">
+				<div class="col">
+					<button ng-click="choosePicture()" type="button" class="button icon-left ion-images button-dark button-block">Library</button>
+				</div>
+				<div class="col">
+					<button ng-click="takePicture()"  type="button" class="button icon-left ion-camera button-dark button-block">Camera</button>
+				</div>
 			</div>
 
 			<div class="padding" ng-show="comic.cover">
